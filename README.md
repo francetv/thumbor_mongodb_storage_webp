@@ -1,0 +1,1 @@
+# thumbor_mongodb_storage_webp
