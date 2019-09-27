@@ -12,6 +12,7 @@ from thumbor.result_storages import BaseStorage
 from thumbor.utils import logger
 import bson
 from bson.binary import Binary
+import re
 
 class Storage(BaseStorage):
     @property
