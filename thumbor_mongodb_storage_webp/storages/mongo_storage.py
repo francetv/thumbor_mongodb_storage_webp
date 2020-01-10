@@ -67,13 +67,14 @@ class Storage(BaseStorage):
         return pasplit[0]
 
     def truepath(self, path):
-
         pasplit = path.split("/")
         # cas du // vide a gerer
         pasplitf = re.search('^[a-z0-9A-Z]+', pasplit[0]).group(0)
-        fichier = open("/tmp/data.txt", "a")
-
-        return pasplitf
+        if  pasplit[0]:
+            pasplitf = re.search('^[a-z0-9A-Z]+', pasplit[0]).group(0)
+            return  pasplitf
+        else:
+            return False
 
     @return_future
     def get_crypto(self, path, callback):
@@ -116,6 +117,10 @@ class Storage(BaseStorage):
         connection, db, storage = self.__conn__()
         tpath = self.truepath(path)
         stored = storage.find_one({'path': tpath})
+        if tpath:
+            stored = storage.find_one({'path': tpath})
+        else:
+            callback(False)
 
         if not stored or self.__is_expired(stored):
             callback(False)
