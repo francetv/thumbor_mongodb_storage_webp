@@ -4,10 +4,10 @@
 # Copyright (c) 2015 Thumbor-Community
 # Copyright (c) 2011 globo.com timehome@corp.globo.com
 import gridfs
-import urllib.request, urllib.parse, urllib.error
+import urllib
 import re
 from datetime import datetime, timedelta
-from io import StringIO
+from cStringIO import StringIO
 from pymongo import MongoClient
 from thumbor.storages import BaseStorage
 from tornado.concurrent import return_future
@@ -15,7 +15,7 @@ from tornado.concurrent import return_future
 class Storage(BaseStorage):
 
     def __conn__(self):
-        password = urllib.parse.quote_plus(self.context.config.MONGO_STORAGE_SERVER_PASSWORD)
+        password = urllib.quote_plus(self.context.config.MONGO_STORAGE_SERVER_PASSWORD)
         user = self.context.config.MONGO_STORAGE_SERVER_USER
         if not self.context.config.MONGO_STORAGE_SERVER_REPLICASET:
           uri = 'mongodb://'+ user +':' + password + '@' + self.context.config.MONGO_STORAGE_SERVER_HOST + '/?authSource=' + self.context.config.MONGO_STORAGE_SERVER_DB

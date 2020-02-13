@@ -4,9 +4,9 @@
 # Copyright (c) 2019 HZ HZ@blackhand.org
 
 import time
-import urllib.request, urllib.parse, urllib.error
+import urllib
 from datetime import datetime, timedelta
-from io import StringIO
+from cStringIO import StringIO
 from pymongo import MongoClient
 from thumbor.result_storages import BaseStorage
 from thumbor.utils import logger
@@ -20,7 +20,7 @@ class Storage(BaseStorage):
         return self.context.config.AUTO_WEBP and self.context.request.accepts_webp
 
     def __conn__(self):
-        password = urllib.parse.quote_plus(self.context.config.MONGO_RESULT_STORAGE_SERVER_PASSWORD)
+        password = urllib.quote_plus(self.context.config.MONGO_RESULT_STORAGE_SERVER_PASSWORD)
         user = self.context.config.MONGO_RESULT_STORAGE_SERVER_USER
         if not self.context.config.MONGO_RESULT_STORAGE_SERVER_REPLICASET:
           uri = 'mongodb://'+ user +':' + password + '@' + self.context.config.MONGO_RESULT_STORAGE_SERVER_HOST + '/?authSource=' + self.context.config.MONGO_RESULT_STORAGE_SERVER_DB
