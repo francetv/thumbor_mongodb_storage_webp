@@ -136,4 +136,3 @@ class Storage(BaseStorage):
         {keyPattern: <index_spec> || name: <index_name>, expireAfterSeconds: <seconds> }
         {getParameter:1, expireAfterSeconds: 1}
         '''
-
