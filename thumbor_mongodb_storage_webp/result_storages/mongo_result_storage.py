@@ -16,10 +16,10 @@ import re
 
 class Storage(BaseStorage):
     @property
-    def is_auto_webp(self):
+    async def is_auto_webp(self):
         return self.context.config.AUTO_WEBP and self.context.request.accepts_webp
 
-    def __conn__(self):
+    async def __conn__(self):
         password = urllib.parse.quote_plus(self.context.config.MONGO_RESULT_STORAGE_SERVER_PASSWORD)
         user = self.context.config.MONGO_RESULT_STORAGE_SERVER_USER
         if not self.context.config.MONGO_RESULT_STORAGE_SERVER_REPLICASET:
@@ -31,7 +31,7 @@ class Storage(BaseStorage):
         storage = db[self.context.config.MONGO_RESULT_STORAGE_SERVER_COLLECTION]
         return client, db, storage
 
-    def get_max_age(self):
+    async def get_max_age(self):
         '''Return the TTL of the current request.
         :returns: The TTL value for the current request.
         :rtype: int
@@ -44,7 +44,7 @@ class Storage(BaseStorage):
         return default_ttl
 
 
-    def get_key_from_request(self):
+    async def get_key_from_request(self):
         '''Return a key for the current request url.
         :return: The storage key for the current url
         :rettype: string
@@ -56,7 +56,7 @@ class Storage(BaseStorage):
         return path
 
 
-    def put(self, bytes):
+    async def put(self, image_bytes):
         connection, db, storage = self.__conn__()
         key = self.get_key_from_request()
         max_age = self.get_max_age()
@@ -74,7 +74,7 @@ class Storage(BaseStorage):
         doc = {
             'path': key,
             'created_at': datetime.utcnow(),
-            'data': Binary(bytes),
+            'data': Binary(image_bytes),
             'content-type': content_t,
             'ref_id': ref_img2
             }
@@ -92,7 +92,7 @@ class Storage(BaseStorage):
 
 
 
-    def get(self):
+    async def get(self):
         '''Get the item .'''
         connection, db, storage = self.__conn__()
         key = self.get_key_from_request()
@@ -111,7 +111,7 @@ class Storage(BaseStorage):
         return tosend
 
 
-    def remove(self, path):
+    async def remove(self, path):
         #if not self.exists(path):
         #    return
 
@@ -120,15 +120,15 @@ class Storage(BaseStorage):
             try:
                 storage.remove({'path': path, "content-type": "webp"})
             except:
-                return
+                pass #return
         else:
             try:
                 storage.remove({'path': path, "content-type": "default"})
             except:
-                return
+                pass #return
 
 
-    def __is_expired(self, result):
+    async def __is_expired(self, result):
         timediff = datetime.utcnow() - result.get('created_at')
         return timediff > timedelta(seconds=self.context.config.RESULT_STORAGE_EXPIRATION_SECONDS)
         '''future => db.log_events.createIndex( { "createdAt": 1 }, { expireAfterSeconds: 3600 } )

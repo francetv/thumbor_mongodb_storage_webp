@@ -14,7 +14,7 @@ def read(fname):
 
 setup(
     name="thumbor_mongodb_storage_webp",
-    version="6.1.0",
+    version="7.0.0",
     author="Bertrand THILL",
     description=("Thumbor thumbor storage adapters - France.tv Release"),
     license="MIT",
@@ -29,10 +29,10 @@ setup(
     classifiers=[
         'Development Status ::4 - Beta',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
     install_requires=[
-        'thumbor>=6.7.0',
+        'thumbor>=7.0.0',
         'pymongo>=3.4.0'
     ]
 )

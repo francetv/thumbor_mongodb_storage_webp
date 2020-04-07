@@ -1,9 +1,9 @@
 #
-MongoDB storage adapter for thumbor with auto_webp support.
+MongoDB storage adapter for thumbor 7 with auto_webp support Python 3.6 (async).
 
 # Versions
 
-NOT FOR PROD
+NOT FOR PROD - INTEGRATION RELEASE
 
 This projects uses the following versioning scheme:
 
