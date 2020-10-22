@@ -16,10 +16,10 @@ import re
 
 class Storage(BaseStorage):
     @property
-    async def is_auto_webp(self):
+    def is_auto_webp(self):
         return self.context.config.AUTO_WEBP and self.context.request.accepts_webp
 
-    async def __conn__(self):
+    def __conn__(self):
         password = urllib.parse.quote_plus(self.context.config.MONGO_RESULT_STORAGE_SERVER_PASSWORD)
         user = self.context.config.MONGO_RESULT_STORAGE_SERVER_USER
         if not self.context.config.MONGO_RESULT_STORAGE_SERVER_REPLICASET:
@@ -31,7 +31,7 @@ class Storage(BaseStorage):
         storage = db[self.context.config.MONGO_RESULT_STORAGE_SERVER_COLLECTION]
         return client, db, storage
 
-    async def get_max_age(self):
+    def get_max_age(self):
         '''Return the TTL of the current request.
         :returns: The TTL value for the current request.
         :rtype: int
@@ -44,7 +44,7 @@ class Storage(BaseStorage):
         return default_ttl
 
 
-    async def get_key_from_request(self):
+    def get_key_from_request(self):
         '''Return a key for the current request url.
         :return: The storage key for the current url
         :rettype: string
