@@ -14,7 +14,7 @@ from tornado.concurrent import return_future
 
 class Storage(BaseStorage):
 
-    async def __conn__(self):
+    def __conn__(self):
         password = urllib.parse.quote_plus(self.context.config.MONGO_STORAGE_SERVER_PASSWORD)
         user = self.context.config.MONGO_STORAGE_SERVER_USER
         if not self.context.config.MONGO_STORAGE_SERVER_REPLICASET:
@@ -82,9 +82,9 @@ class Storage(BaseStorage):
         pasplit = path.split("/")
         crypto = storage.find_one({'path': tpath})
         if crypto:
-          return crypto.get('crypto')
+            return crypto.get('crypto')
         else
-          return None
+            return None
 
     async def get_detector_data(self, path):
         connection, db, storage = self.__conn__()
@@ -92,9 +92,9 @@ class Storage(BaseStorage):
         tpath = self.truepath(path)
         doc = storage.find_one({'path': tpath})
         if doc:
-          return doc.get('detector_data')
+            return doc.get('detector_data')
         else:
-          return None
+            return None
 
 
     
